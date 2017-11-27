@@ -1329,7 +1329,14 @@ class TBOPlayer:
                 self.file_pieces = self.file.split("/")
                 self.playlist.append([self.file, self.file_pieces[-1],'',''])
                 self.track_titles_display.insert(END, self.file_pieces[-1])
-            elif os.path.isfile(f) and  f[f.rfind('.')+1:]=="csv":
+            elif os.path.isdir(f):
+                for f1 in next(os.walk(f))[2]:
+                    if os.path.isfile(f1) and self.is_file_supported(f1):
+                        self.file = f1
+                        self.file_pieces = self.file.split("/")
+                        self.playlist.append([self.file, self.file_pieces[-1],'',''])
+                        self.track_titles_display.insert(END, self.file_pieces[-1])
+            elif os.path.isfile(f) and f[f.rfind('.')+1:]=="csv":
                 self._open_list(f)
         
         def ytdl_updated_msg():
